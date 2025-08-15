@@ -20,3 +20,4 @@ public class MeetingRoomScheduler {
 
         return minHeap.size(); // heap大小 = 會議室數量
     }
+} 
