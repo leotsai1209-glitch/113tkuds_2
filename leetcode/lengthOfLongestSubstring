@@ -1,0 +1,27 @@
+import java.util.HashSet;
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        // 使用 HashSet 儲存目前視窗內的字元
+        HashSet<Character> set = new HashSet<>();
+        int left = 0, right = 0; // 左右指標
+        int maxLength = 0;
+
+        while (right < s.length()) {
+            char c = s.charAt(right);
+
+            // 如果當前字元已經在 set 中，就一直移動 left，直到移除重複
+            while (set.contains(c)) {
+                set.remove(s.charAt(left));
+                left++;
+            }
+
+            // 加入新字元，更新視窗長度
+            set.add(c);
+            maxLength = Math.max(maxLength, right - left + 1);
+            right++;
+        }
+
+        return maxLength;
+    }
+}

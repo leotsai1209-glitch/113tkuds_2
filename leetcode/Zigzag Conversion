@@ -1,0 +1,37 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        // 如果只有一行，或字串長度小於列數，就不需變換
+        if (numRows == 1 || s.length() <= numRows) return s;
+
+        // 建立每一行的 StringBuilder
+        StringBuilder[] rows = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            rows[i] = new StringBuilder();
+        }
+
+        // 當前行索引 & 控制方向
+        int currentRow = 0;
+        boolean goingDown = false;
+
+        // 將字元依照 Z 字形加入對應行
+        for (char c : s.toCharArray()) {
+            rows[currentRow].append(c);
+
+            // 到達最上或最下時，反轉方向
+            if (currentRow == 0 || currentRow == numRows - 1) {
+                goingDown = !goingDown;
+            }
+
+            // 根據方向移動到下一行
+            currentRow += goingDown ? 1 : -1;
+        }
+
+        // 將所有行合併為最終字串
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder row : rows) {
+            result.append(row);
+        }
+
+        return result.toString();
+    }
+}

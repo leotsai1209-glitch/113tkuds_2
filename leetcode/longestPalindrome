@@ -1,0 +1,37 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
+        int start = 0, end = 0;
+
+        // 嘗試以每一個字元為中心進行擴展
+        for (int i = 0; i < s.length(); i++) {
+            // 情況1：奇數長度回文（中心是單一字元）
+            int len1 = expandAroundCenter(s, i, i);
+
+            // 情況2：偶數長度回文（中心是兩個相同字元）
+            int len2 = expandAroundCenter(s, i, i + 1);
+
+            // 取最大長度
+            int len = Math.max(len1, len2);
+
+            // 如果找到更長的回文，就更新 start 和 end
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+
+        // 回傳最長回文子字串
+        return s.substring(start, end + 1);
+    }
+
+    // 從中心向外擴展回文
+    private int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        // 注意：離開 while 時 left 和 right 多走了一步
+        return right - left - 1;
+    }
+}

@@ -1,0 +1,16 @@
+class Solution {
+    public boolean isPalindrome(int x) {
+        // 負數或最後一位為 0 但不是 0 本身，不可能是回文
+        if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+
+        int reversed = 0;
+        while (x > reversed) {
+            // 每次取最後一位數字，反轉放入 reversed
+            reversed = reversed * 10 + x % 10;
+            x /= 10;
+        }
+
+        // 如果長度為奇數，只要去掉 reversed 的中間數即可比較
+        return x == reversed || x == reversed / 10;
+    }
+}
