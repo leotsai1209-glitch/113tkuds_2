@@ -1,0 +1,38 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums); // 排序先
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            // 跳過重複的 i
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    // 移動 left 跳過重複值
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    // 移動 right 跳過重複值
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++; // 加總太小，左邊往右
+                } else {
+                    right--; // 加總太大，右邊往左
+                }
+            }
+        }
+
+        return result;
+    }
+}
