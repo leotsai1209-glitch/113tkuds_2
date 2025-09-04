@@ -1,0 +1,22 @@
+import java.util.Stack;
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : s.toCharArray()) {
+            // 若為左括號，push 對應的右括號進 stack
+            if (c == '(') stack.push(')');
+            else if (c == '{') stack.push('}');
+            else if (c == '[') stack.push(']');
+            else {
+                // 若為右括號，判斷是否正確配對
+                if (stack.isEmpty() || stack.pop() != c) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty(); // 若全部配對成功，stack 會為空
+    }
+}
