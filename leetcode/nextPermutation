@@ -1,0 +1,41 @@
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int i = nums.length - 2;
+
+        // 從右往左找到第一個遞減的位置 i
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+
+        // 如果有找到遞減點
+        if (i >= 0) {
+            int j = nums.length - 1;
+            // 從右往左找第一個比 nums[i] 大的數字
+            while (nums[j] <= nums[i]) {
+                j--;
+            }
+            // 交換 nums[i] 和 nums[j]
+            swap(nums, i, j);
+        }
+
+        // 把 i+1 之後的區段反轉，讓它變成最小排列
+        reverse(nums, i + 1);
+    }
+
+    // 交換兩個位置的值
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    // 將從 start 開始到最後的元素反轉
+    private void reverse(int[] nums, int start) {
+        int i = start, j = nums.length - 1;
+        while (i < j) {
+            swap(nums, i, j);
+            i++;
+            j--;
+        }
+    }
+}

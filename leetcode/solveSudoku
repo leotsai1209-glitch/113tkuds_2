@@ -1,0 +1,35 @@
+class Solution {
+    public void solveSudoku(char[][] board) {
+        solve(board);
+    }
+
+    private boolean solve(char[][] board) {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                // 如果當前格子是空的，就嘗試填入 1~9
+                if (board[row][col] == '.') {
+                    for (char num = '1'; num <= '9'; num++) {
+                        if (isValid(board, row, col, num)) {
+                            board[row][col] = num; // 嘗試填入
+                            if (solve(board)) return true; // 若成功，整體解完成
+                            board[row][col] = '.'; // 回溯，還原
+                        }
+                    }
+                    return false; // 這格無法填任何數字，回溯
+                }
+            }
+        }
+        return true; // 全部都填好了
+    }
+
+    // 檢查在 (row, col) 填入 num 是否合法
+    private boolean isValid(char[][] board, int row, int col, char num) {
+        for (int i = 0; i < 9; i++) {
+            // 檢查列、行、3x3 區塊
+            if (board[row][i] == num) return false; // 同一列
+            if (board[i][col] == num) return false; // 同一行
+            if (board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == num) return false; // 同一個 3x3 區塊
+        }
+        return true;
+    }
+}

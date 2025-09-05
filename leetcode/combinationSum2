@@ -1,0 +1,28 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(candidates); // 先排序以便去重
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void backtrack(int[] candidates, int remain, int start, List<Integer> path, List<List<Integer>> result) {
+        if (remain == 0) {
+            result.add(new ArrayList<>(path)); // 深拷貝當前解
+            return;
+        }
+
+        for (int i = start; i < candidates.length; i++) {
+            // 去重：跳過同層重複的元素
+            if (i > start && candidates[i] == candidates[i - 1]) continue;
+
+            if (candidates[i] > remain) break; // 剪枝：提早結束
+
+            path.add(candidates[i]);
+            backtrack(candidates, remain - candidates[i], i + 1, path, result); // 每個數字只能用一次
+            path.remove(path.size() - 1); // 回溯
+        }
+    }
+}

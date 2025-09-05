@@ -1,0 +1,29 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int first = findIndex(nums, target, true);
+        int last = findIndex(nums, target, false);
+        return new int[]{first, last};
+    }
+
+    // 用 binary search 找第一個或最後一個出現位置
+    private int findIndex(int[] nums, int target, boolean findFirst) {
+        int left = 0, right = nums.length - 1;
+        int index = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                index = mid; // 先記住這個位置
+                if (findFirst) {
+                    right = mid - 1; // 往左邊繼續找
+                } else {
+                    left = mid + 1; // 往右邊繼續找
+                }
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return index;
+    }
+}

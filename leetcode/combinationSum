@@ -1,0 +1,22 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void backtrack(int[] candidates, int target, int start, List<Integer> path, List<List<Integer>> result) {
+        if (target == 0) {
+            result.add(new ArrayList<>(path));  // 找到一組合法組合，加入結果
+            return;
+        }
+
+        for (int i = start; i < candidates.length; i++) {
+            if (candidates[i] > target) continue; // 如果超過目標值就跳過
+
+            path.add(candidates[i]); // 選擇這個數字
+            backtrack(candidates, target - candidates[i], i, path, result); // 遞迴，i 不變表示可以重複使用
+            path.remove(path.size() - 1); // 回溯
+        }
+    }
+}
